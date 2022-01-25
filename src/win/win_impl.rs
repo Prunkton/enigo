@@ -46,6 +46,10 @@ fn keybd_event(flags: u32, vk: u16, scan: u16) {
 }
 
 impl MouseControllable for Enigo {
+    fn mouse_location(&mut self) -> (i32, i32) {
+        Enigo::mouse_location()
+    }
+    
     fn mouse_move_to(&mut self, x: i32, y: i32) {
         mouse_event(
             MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_VIRTUALDESK,
