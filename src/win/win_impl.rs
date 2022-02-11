@@ -101,7 +101,7 @@ impl MouseControllable for Enigo {
     }
 
     fn mouse_scroll_y(&mut self, length: i32) {
-        mouse_event(MOUSEEVENTF_WHEEL, unsafe { transmute(length * 120) }, 0, 0);
+        mouse_event(MOUSEEVENTF_WHEEL, unsafe { transmute(length * -120) }, 0, 0);
     }
 }
 
