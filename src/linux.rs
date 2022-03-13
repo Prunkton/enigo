@@ -2,12 +2,12 @@ use libc;
 
 use crate::{Key, KeyboardControllable, MouseButton, MouseControllable};
 
-use self::libc::{c_char, c_int, c_void, useconds_t};
+use self::libc::{c_char, c_int, c_ulong, c_void, useconds_t};
 use std::{borrow::Cow, ffi::CString, ptr};
 
-const CURRENT_WINDOW: c_int = 0;
+const CURRENT_WINDOW: Window = 0;
 const DEFAULT_DELAY: u64 = 12000;
-type Window = c_int;
+type Window = c_ulong;
 type Xdo = *const c_void;
 
 #[link(name = "xdo")]
@@ -26,7 +26,7 @@ extern "C" {
         x: &c_int,
         y: &c_int,
         screen: &c_int,
-        window: &c_int
+        window: &Window
     ) -> c_int;
     fn xdo_enter_text_window(
         xdo: Xdo,
@@ -109,14 +109,14 @@ impl MouseControllable for Enigo {
         let mut x: i32 = 0;
         let mut y: i32 = 0;
         let mut screen: i32 = 0;
-        let mut window: i32 = 0;
+        let mut window: u64 = 0;
         unsafe {
             xdo_get_mouse_location2(
                 self.xdo,
                 &x as &c_int,
                 &y as &c_int,
                 &screen as &c_int,
-                &window as &c_int);
+                &window as &Window);
         }
         return (x, y)
     }
